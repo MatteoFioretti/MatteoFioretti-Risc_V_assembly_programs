@@ -1,0 +1,20 @@
+.data
+	.word 5 # result : 120
+	
+.text 
+	lui s0,0x10010
+	lw t0,0(s0) # 5
+	li a0,1
+	jal ra,factorial
+  stop:	li a7,1
+	ecall
+	li a7,10
+	ecall
+	
+	factorial:
+		mul a0,a0,t0
+		addi t0,t0,-1
+		bnez t0,factorial
+		jalr zero,ra,0	
+	
+	

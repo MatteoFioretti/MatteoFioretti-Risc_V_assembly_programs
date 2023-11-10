@@ -1,0 +1,38 @@
+.data 
+	len: .word 3
+	arr: .word 100,-1,1
+.text 
+	lw t0,len #outer loop
+	la t2,arr #address of the first element
+	la t6,arr
+	mv t1,t0 # inner loop
+	mv t4,t2
+	li t3,0
+outer_loop: 
+	    addi t0,t0,-1
+	    beqz t0,end
+	    lw t3,0(t2) # current element
+	    inner_loop:
+	    		addi t1,t1,-1
+	      		beq t1,zero,reset
+	    		addi t4,t4,4 #address next element
+	    		lw t5,0(t4) # next element
+	    		bgt t3,t5,swap
+	    		mv t2,t4
+	    		mv t3,t5
+	    		b inner_loop
+	    		
+	    		swap:
+	    			sw t3,0(t4)
+	    			sw t5,0(t2)
+	    			addi t2,t2,4
+	    			b inner_loop
+	    		reset:
+	    			beqz t0,end
+	    			mv t1,t0 #reset inner loop
+	    			mv t2,t6 #reset address of the first element
+	    			mv t4,t2
+	    			b outer_loop	
+end: 
+	li a7,10
+	ecall

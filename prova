@@ -1,0 +1,41 @@
+# print 1 if the string is palyndrome, otherwise 0
+
+.data
+	str: .asciz "blalalb"
+.text
+	la s0,str
+	mv t0,s0
+	li t1,0 #counter
+	jal ra,len
+	li t2,2
+	addi t1,t1,-1
+	add t0,s0,t1 #address last element
+	div t1,t1,t2
+	li a0,0 # 1 or 
+	jal ra, pal
+	li a7,1
+	ecall
+	li a7,10
+	ecall
+	
+	len: 
+		lb t2,0(t0)
+		beqz t2,end 
+		addi t1,t1,1
+		addi t0,t0,1
+		j len
+		end: 
+			jalr zero,ra,0
+			
+	pal:
+		lb t3,0(s0)
+		lb t4,0(t0)
+		bne t3,t4,end2
+		addi s0,s0,1
+		addi t0,t0,-1
+		addi t1,t1,-1
+		bgez t1,pal
+		
+		li a0,1
+		end2: jalr zero,ra,0
+		

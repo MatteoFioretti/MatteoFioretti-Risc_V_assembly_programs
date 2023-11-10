@@ -1,0 +1,26 @@
+.data
+ 	str1: .asciz "ciaoo"
+ 	str2: .asciz "ciaoo"
+	 
+.text
+	la s0,str1
+	la s1,str2
+	li a0,1 
+loop: 	lb t0,0(s0)
+	lb t1,0(s1)
+	beqz t0,check
+cont:   bne t1,t0,different
+	addi s0,s0,1
+	addi s1,s1,1
+	b loop
+	  
+
+check: bnez t1,different
+       b end
+     
+different: li a0,0
+end: 	   
+	   li a7,1
+	   ecall
+	   li a7,10
+	   ecall

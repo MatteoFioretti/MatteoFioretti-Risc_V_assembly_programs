@@ -1,0 +1,33 @@
+# I suppose the linked list contains at least one element
+
+.data
+	lista : .word node1
+	node2 : .word 10,node3
+	node3 : .word 16,0
+	node1 : .word 18,node2
+
+.text
+	la s0,lista
+	lw t0,0(s0) #address of first node
+	lw a0,0(t0) #value of the first node
+	jal ra,sum
+	li a7,1
+	ecall
+	li a7,10
+	ecall
+	
+	sum:
+	lw t0,4(t0)
+	bne t0,zero,ric
+	jalr zero,ra,0
+		ric:
+		addi sp,sp,-8
+		lw a1,0(t0)
+		sw a1,0(sp)
+		sw ra,4(sp)
+		jal ra sum
+		lw t0,0(sp)
+		add a0,a0,t0
+		lw ra,4(sp)
+		addi sp,sp,8
+		jalr zero,ra,0	

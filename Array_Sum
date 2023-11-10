@@ -1,0 +1,18 @@
+.data
+	.word 6
+	.word 3,2,5,15,6,3 # sum = 34
+.text
+	lui s0,0x10010 # s0 -> 0x10010000
+	lw t0,0(s0)    # t0 -> 6
+	ori s1,s0,4    # s1 -> 0x10010004
+	lw t1,0(s1)    # t1 -> 3
+	and t2,zero,zero  # t2 -> register containg zero
+       skip: add t2,t2,t1    # sum among values
+	addi t0,t0,-1	  # lenght decreasing
+	addi s1,s1,4       # address of the next element
+	lw t1,0(s1)	  # load next element
+	bnez t0,skip      # if t0 != 0 then skip
+	ori a0,t2,0
+	ori a7,zero,1
+	ecall
+	ori a7,zero,10

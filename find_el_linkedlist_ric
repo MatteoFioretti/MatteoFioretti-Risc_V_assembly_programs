@@ -1,0 +1,52 @@
+# I suppose that the linked list contains at least one element
+
+.data
+	num:	.word 14
+	lista : .word node1
+	node2 : .word 14,node3
+	node3 : .word 14,0
+	node1 : .word 14,node2
+.text
+	  la s0,lista
+	  lw t0,0(s0) #address of the first node
+	  lw t1,0(t0) #first node
+	  la s1,num #address of num
+	  lw s1,0(s1) #num
+	  jal ra,find
+	  li a7,1
+	  ecall
+	  li a7,10
+	  ecall
+	
+	find:
+		lw t2,4(t0)
+		bne t2,zero,ric
+		lw t1,0(t0)
+		beq t1,s1,found
+   	   end: jalr zero,ra,0
+		
+		found : 
+			li a0,1
+			b end
+		
+		ric:
+			addi sp,sp,-8
+			lw t0,4(t0)
+			lw t1,0(t0)
+			sw t1,0(sp)
+			sw ra,4(sp)
+			jal ra,find
+			lw t1,0(sp)
+			lw ra,4(sp)
+			addi sp,sp,8
+			beq t1,s1,found
+			jalr zero,ra,0
+	
+			
+			
+			
+			
+			
+			
+			
+			

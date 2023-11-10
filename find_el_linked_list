@@ -1,0 +1,23 @@
+.data
+	num:	.word 11
+	lista : .word node1
+	node2 : .word 10,node3
+	node3 : .word 11,0
+	node1 : .word 18,node2
+.text
+	la s1,num
+	lw s1,0(s1)#num
+	la s0,lista
+	lw t0,0(s0)
+	lw t1,0(t0)#first element
+loop:   beq s1,t1,end
+	lw t0,4(t0)
+	beq t0,zero,not_found
+	lw t1,0(t0)
+	b loop
+	end: 
+	  li a0,1
+not_found:li a7,1
+	  ecall
+       	  li a7,10
+	  ecall

@@ -1,0 +1,22 @@
+.data
+
+lista : .word node1
+node2 : .word 10,node3
+node1 : .word 16,node2
+node3 : .word 18,0
+
+.text
+	la s0,lista
+	lw t0,0(s0) #address of first node
+	lw a0,0(t0) #value of the first node
+loop:	lw t0,4(t0)
+	beq t0,zero,end
+	lw t1,0(t0)
+	add a0,a0,t1
+	b loop
+end:
+	li a7,1
+	ecall
+	li a7,10
+	ecall
+	 

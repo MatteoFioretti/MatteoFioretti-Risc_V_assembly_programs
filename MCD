@@ -1,0 +1,54 @@
+# Variabili globali
+.data
+
+n1: .word 40
+n2: .word 12
+
+msg: .asciz "Il massimo comune divisore e': "
+
+# Variabili locali
+.text
+
+main:
+    # Carica i numeri dal dataset nella RAM
+    lw a0, n1
+    lw a1, n2
+    
+    # Inizializza i registri temporanei
+    li t1, 0    # Resto
+    li t2, 0    # Massimo comune divisore
+
+loop:
+    # Calcola il resto della divisione
+    rem t1, a0, a1
+    
+    # Se il resto e' zero, hai trovato il MCD
+    beqz t1, exit
+
+    # Aggiorna il valore minore con il resto
+    mv a0, a1
+    mv a1, t1
+    
+
+    # Salva il massimo comune divisore
+    mv t2, a1
+
+    # Torna al ciclo fino a quando il resto non e' zero
+    j loop
+
+exit:
+    # Stampa il massimo comune divisore
+    mv t2,a1
+    li a7, 4        # Syscall per la stampa di stringhe
+    la a0, msg
+    ecall
+
+    li a7, 1        # Syscall per la stampa di interi
+    mv a0, t2
+    ecall
+
+    # Termina il programma
+    li a7, 10       # Syscall per la terminazione del programma
+    ecall
+
+# Stringa da stampare

@@ -1,0 +1,30 @@
+.data
+	num:	.word 12
+	lista : .word node1
+	node2 : .word 12,node3
+	node3 : .word 12,node4
+	node1 : .word 12,node2
+	node4 : .word 12,0
+
+.text
+	 la s0,lista
+	 lw t0,0(s0)
+	 lw t1,0(t0)#first element
+	 la s1,num
+	 lw s1,0(s1)#num
+	 li a0,0 #counter
+loop:	 beq t1,s1,count
+continue:lw t0,4(t0)
+	 beq t0,zero,end
+	 lw t1,0(t0)
+	 b loop
+	
+	count: 
+	addi a0,a0,1
+	b continue
+	
+	end:
+	li a7,1
+	ecall
+	li a7,10
+	ecall	

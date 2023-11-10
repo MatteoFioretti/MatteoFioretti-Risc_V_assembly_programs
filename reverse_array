@@ -1,0 +1,22 @@
+.data
+	.word 3
+	.word 1,2,4
+.text 
+	lui s0,0x10010
+	lw s1,0(s0) # lenght
+	li t0,4
+	mul t0,t0,s1 
+	add t0,t0,s0 # mem address of the last element of the arrray
+	li s2,2
+	div s2,s1,s2
+	addi s2,s2,-1
+	loop:	addi s0,s0,4
+		lw t1,0(s0) #first element
+		lw t2,0(t0) #last element
+		sw t2,0(s0) # swap
+		sw t1,0(t0) # swap
+		addi t0,t0,-4
+		addi s2,s2,-1
+		bge s2,zero,loop
+	 	li a7,10
+		ecall

@@ -1,0 +1,24 @@
+.data
+	lista: .word node1
+	node2: .word 100,node3
+	node1: .word 29,node2
+	node3: .word 101,node4
+	node4: .word 4,0
+.text
+	lw t0,lista
+	lw a0,0(t0)
+	
+loop:	lw t1,4(t0)
+	beq t1,zero,end
+	lw t3,0(t1)
+	bge t3,a0,swap
+continue:mv t0,t1
+	b loop
+end:	li a7,1
+	ecall
+	li a7,10
+	ecall
+
+swap:	mv a0,t3
+	b continue
+	

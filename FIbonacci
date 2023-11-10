@@ -1,0 +1,24 @@
+						# 1+1+2+3+5+8+13
+.data
+	.word 6
+.text
+	lui s0,0x10010
+	lw t0, 0(s0)
+	ori s1,zero,2
+	ori a0,zero,0
+	ori t1,zero,1
+	ori t2,zero,1
+	loop:
+		add a0,t1,t2
+		or t2,a0,zero
+		sub t1,t2,t1
+		addi t0,t0,-1
+		bge t0,s1,	loop
+		
+	ori a7,zero,1
+	ecall
+	ori a7,zero,10
+	ecall
+	
+		
+	
